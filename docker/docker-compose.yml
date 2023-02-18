@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    env_file: ./.env
+    container_name: wordpress
+    image: wordpress
+    restart: unless-stopped
+    depends_on:
+      - database
+    ports:
+      - 80:80
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    domainname: ${SITE}
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_NAME: ${SITE}_db
+      WORDPRESS_DB_USER: ${SITE}_db_user
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-db_pass}
+    expose:
+      - 9003
+    volumes:
+      - ./config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ../www:/var/www/html
+
+  database:
+    env_file: ./.env
+    container_name: database
+    image: mysql:5.7
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${SITE}_db
+      MYSQL_USER: ${SITE}_db_user
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD:-db_pass}
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
