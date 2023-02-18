@@ -2,7 +2,7 @@
 
 ## Usage
 ```bash
-sh ./start.sh
+sh ./docker/start
 ```
 
 ### To Do:
