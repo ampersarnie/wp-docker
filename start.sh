@@ -1,1 +1,1 @@
-docker compose -f docker/docker-compose.yml up -d
+DOCKER_PWD=$PWD docker compose -f docker/docker-compose.yml up -d
