@@ -1,3 +1,6 @@
 #!/bin/bash
 
-DOCKER_PWD=$PWD docker compose -f docker/docker-compose.yml up -d
+DOCKER_PWD=$PWD
+DOCKER_COMPOSE_FILE="$DOCKER_PWD/docker/docker-compose.yml"
+
+docker compose -f "$DOCKER_COMPOSE_FILE" up -d
