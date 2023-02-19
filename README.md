@@ -2,6 +2,8 @@
 Simple docker setup for working with WordPress enviroments.
 
 ## Usage
+Create a `.env` file in the root of your project.
+
 ```bash
 sh ./docker/start
 ```

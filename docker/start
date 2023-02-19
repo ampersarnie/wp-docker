@@ -1,6 +1,12 @@
 #!/bin/bash
 
-DOCKER_PWD=$PWD
-DOCKER_COMPOSE_FILE="$DOCKER_PWD/docker/docker-compose.yml"
+PROJECT_PATH=$PWD
+DOCKER_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+DOCKER_COMPOSE_FILE="$DOCKER_PATH/docker-compose.yml"
 
-docker compose -f "$DOCKER_COMPOSE_FILE" up -d
+if [[ ! -f "$PROJECT_PATH/.env.docker" ]]; then
+    echo "Please create an .env.docker file in your project root. See docker/.env.example for options."
+    exit 1;
+fi
+
+PROJECT_PATH=$PWD docker compose --env-file "$PROJECT_PATH/.env.docker" -f "$DOCKER_COMPOSE_FILE" up -d

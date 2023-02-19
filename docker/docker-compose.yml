@@ -1,10 +1,8 @@
 version: '3.1'
 
 services:
-
   wordpress:
-    env_file: ${DOCKER_PWD:-..}/docker/.env
-    container_name: wordpress
+    container_name: wordpress_${SITE}
     image: wordpress
     restart: unless-stopped
     depends_on:
@@ -12,8 +10,8 @@ services:
     ports:
       - 80:80
     build:
-      context: ${DOCKER_PWD:-..}/docker/
-      dockerfile: ${DOCKER_PWD:-..}/docker/Dockerfile
+      context: ${DOCKER_PATH:-..}/docker/
+      dockerfile: ${DOCKER_PATH:-..}/docker/Dockerfile
     domainname: ${SITE}
     environment:
       WORDPRESS_DB_HOST: database
@@ -23,12 +21,13 @@ services:
     expose:
       - 9003
     volumes:
-      - ${DOCKER_PWD:-..}/docker/config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ${DOCKER_PWD:-..}/www:/var/www/html
+      - ${DOCKER_PATH:-..}/docker/config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ${PROJECT_PATH}:/var/www/html/wp-content
+      - ${DOCKER_PATH:-..}/www:/var/www/html
+      - ${PROJECT_PATH}/wp-docker
 
   database:
-    env_file: ${DOCKER_PWD:-..}/docker/.env
-    container_name: database
+    container_name: database_${SITE}
     image: mysql:5.7
     restart: unless-stopped
     ports:
