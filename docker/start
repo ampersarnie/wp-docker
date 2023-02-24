@@ -4,6 +4,8 @@ PROJECT_PATH=$PWD
 DOCKER_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 DOCKER_COMPOSE_FILE="$DOCKER_PATH/docker-compose.yml"
 
+mkdir $DOCKER_PATH/www 2> /dev/null
+
 if [[ ! -f "$PROJECT_PATH/.env.docker" ]]; then
     echo "Please create an .env.docker file in your project root. See docker/.env.example for options."
     exit 1;
