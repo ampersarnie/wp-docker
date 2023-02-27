@@ -10,8 +10,8 @@ services:
     ports:
       - 80:80
     build:
-      context: ${DOCKER_PATH:-..}/docker/
-      dockerfile: ${DOCKER_PATH:-..}/docker/Dockerfile
+      context: ${PROJECT_PATH}/docker
+      dockerfile: ${PROJECT_PATH}/docker/Dockerfile
     domainname: ${SITE}
     environment:
       WORDPRESS_DB_HOST: database
@@ -22,10 +22,9 @@ services:
     expose:
       - 9003
     volumes:
-      - ${DOCKER_PATH:-..}/docker/config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ${PROJECT_PATH}:/var/www/html/wp-content
-      - ${DOCKER_PATH:-..}/www:/var/www/html
-      - ${PROJECT_PATH}/wp-docker
+      - ${PROJECT_PATH}/docker/config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ${PROJECT_PATH}/docker/config/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ${PROJECT_PATH}/www:/var/www/html
 
   database:
     container_name: database_${SITE}
